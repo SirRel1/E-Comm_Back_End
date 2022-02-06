@@ -28,10 +28,9 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  let { tag_name } = req.body.tag_name
   try {
     const nuTag = await Tag.create({
-      tag_name});
+      tag_name: req.body.tag_name });
       res.status(200).json(nuTag)
     
   } catch (err) {
@@ -42,15 +41,11 @@ router.post('/', async (req, res) => {
 });
 
 router.put('/:id', async (req, res) => {
-  let { tag_name } = req.body.tag_name;
-  let { id } = req.body.id;
-  const upTag = await Tag.update({
-    tag_name
-
-  },
+ 
+  const upTag = await Tag.update({tag_name: req.body.tag_name}, 
   {
     where: {
-      id 
+      id:req.params.id 
     }
   })
   !upTag ? res.status(404).json({message:'No tag with that id!'}) :
@@ -59,14 +54,14 @@ router.put('/:id', async (req, res) => {
 });
 
 router.delete('/:id', async (req, res) => {
-  let { id } = req.params.id
+
   delTag = await Tag.destroy({
     where: {
-      id
+      id: req.params.id
     }
   });
   !delTag ? res.status(404).json({message: 'No tag with that id!'}) :
-  res.status(200).json({message: `You deleted tag ${id}`})
+  res.status(200).json({message: `You deleted tag ${req.params.id}`})
   // delete on tag by its `id` value
 });
 
