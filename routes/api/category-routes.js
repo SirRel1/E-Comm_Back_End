@@ -40,10 +40,9 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/', (req, res) => {
-  let {category_name} = req.body.category_name;
   try {
     const addCat = Category.create({
-      category_name
+      category_name:req.body.category_name 
     })
     res.status(200).json(addCat)
     
